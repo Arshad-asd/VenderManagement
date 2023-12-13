@@ -541,7 +541,7 @@ curl -X DELETE http://localhost:8000/api/purchase_orders/1/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Arshad-asd/VendorManagementSystemwithPerformanceMetrics.git
+git clone https://github.com/Arshad-asd/VendorManagementSystem.git
 ```
 
 2. Create and activate a virtual environment
@@ -554,7 +554,7 @@ python -m venv venv
 # On macOS/Linux: source venv/bin/activate
 ```
 ```bash
-cd VendorManagementSystemwithPerformanceMetrics
+cd VendorManagementSystem
 ```
 
 3. Install dependencies:
