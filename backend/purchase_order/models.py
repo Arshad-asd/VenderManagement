@@ -13,6 +13,7 @@ class PurchaseOrder(models.Model):
     quality_rating = models.FloatField(null=True, blank=True)
     issue_date = models.DateTimeField()
     acknowledgment_date = models.DateTimeField(null=True, blank=True)
+    promised_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"Purchase Order {self.po_number} for {self.vendor.name}"

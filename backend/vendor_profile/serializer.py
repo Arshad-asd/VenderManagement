@@ -122,7 +122,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 
-class VendorProfileSerializer(serializers.ModelSerializer):
+class VendorProfileCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = VendorProfile
         fields = '__all__'
@@ -135,3 +135,9 @@ class VendorProfileSerializer(serializers.ModelSerializer):
         if existing_profile:
             raise ValidationError("A profile already exists for this user.")
         return data
+
+class VendorProfilesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VendorProfile
+        fields = '__all__'
+        read_only_fields = ['user', 'vendor_code']

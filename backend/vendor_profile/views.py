@@ -4,9 +4,9 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView ,TokenRefreshView
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import ValidationError
 
-from vendor_profile.serializer import CustomTokenObtainPairSerializer, UserRegistrationSerializer, VendorProfileSerializer, VendorRegistrationSerializer
+
+from vendor_profile.serializer import CustomTokenObtainPairSerializer, UserRegistrationSerializer, VendorProfileCreateSerializer, VendorProfilesSerializer, VendorRegistrationSerializer
 from vendor_profile.models import VendorProfile
 
 
@@ -30,15 +30,26 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 
-
-
-class VendorProfileCreateView(generics.CreateAPIView):
+class VendorProfileListCreateView(generics.ListCreateAPIView):
     queryset = VendorProfile.objects.all()
-    serializer_class = VendorProfileSerializer
+    serializer_class = VendorProfilesSerializer
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        try:
-            serializer.save(user=self.request.user)
-        except ValidationError as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        # Set the user field to the authenticated user
+        serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class VendorProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = VendorProfile.objects.all()
+    serializer_class = VendorProfilesSerializer
+    permission_classes = [IsAuthenticated]
+
