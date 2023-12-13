@@ -18,19 +18,29 @@ This repository contains the source code for a Vendor Management System develope
 
 ### API Endpoints
 
-1. Vendor Profile Management:
+
+
+1. Authentication
+
+**Description:**
+
+- `POST /api/user/register`: Create a new user.
+- `POST /api/vendor/register`: Create a new vendor.
+- `POST /api/token/`: Sign a new vendor or user Role based.
+  
+2. Vendor Profile Management:
 
 **Description:**
 
 The Vendor Profile Management feature enables the system to store detailed information about vendors. Each vendor is uniquely identified by a vendor code. The information includes the vendor's name, contact details, physical address, and other relevant details. Through dedicated API endpoints, users can create, retrieve, update, and delete vendor profiles, providing a comprehensive solution for managing vendor information.
 
-- `POST /api/vendors/`: Create a new vendor.
+- `POST /api/vendors/`: Create a new vendor profile.
 - `GET /api/vendors/`: List all vendors.
 - `GET /api/vendors/{vendor_id}/`: Retrieve a specific vendor's details.
 - `PUT /api/vendors/{vendor_id}/`: Update a vendor's details.
 - `DELETE /api/vendors/{vendor_id}/`: Delete a vendor.
 
-2. Purchase Order Tracking:
+3. Purchase Order Tracking:
 
 **Description:**
 
@@ -42,7 +52,7 @@ The Purchase Order Tracking feature facilitates the monitoring and management of
 - `PUT /api/purchase_orders/{po_id}/`: Update a purchase order.
 - `DELETE /api/purchase_orders/{po_id}/`: Delete a purchase order.
 
-3. Vendor Performance Evaluation:
+4. Vendor Performance Evaluation:
 
 **Description:**
 
@@ -51,6 +61,125 @@ The Vendor Performance Evaluation feature focuses on assessing and analyzing the
 - `GET /api/vendors/{vendor_id}/performance/`: Retrieve a vendor's performance metrics.
 
 ## API Documentation
+
+
+### `POST /api/user/register/`
+
+**Description:**
+
+Create a new User.
+
+**Request:**
+- **Method:** `POST`
+- **Endpoint:** `/api/user/register/`
+- **Body:**
+  - `phone_number` (intiger, required): User's phone_number.
+  - `email` (string, required): User's email.
+  - `password` (string, required): User's password. "Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one digit."
+
+  - `password2` (string, required): User's Confirmpassword.
+
+**Response:**
+- **Success Response:**
+  - **Status Code:** 201 Created
+  - **Body:**
+    ```json
+    {
+      "id": 1,
+      "email": "user@example.com"
+      "phone_number": "+91-9900223344"
+    }
+    ```
+
+- **Error Response:**
+  - **Status Code:** 400 Bad Request
+  - **Body:**
+    ```json
+    {
+      "error": "Invalid data. Please provide valid information."
+    }
+    ```
+
+**Example:**
+```bash
+curl -X POST http://localhost:8000/api/user/register/ -d '{"phone_number": "+91-9822334455", "email": "user@example.com", "password": "Password123","password": "Password123"}' -H 'Content-Type: application/json'
+```
+
+### `POST /api/venodr/register/`
+
+**Description:**
+
+Create a new Vendor.
+
+**Request:**
+- **Method:** `POST`
+- **Endpoint:** `/api/vendor/register/`
+- **Body:**
+  - `phone_number` (intiger, required): User's phone_number.
+  - `email` (string, required): User's email.
+  - `password` (string, required): User's password."Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one digit."
+
+  - `password2` (string, required): User's Confirmpassword.
+
+**Response:**
+- **Success Response:**
+  - **Status Code:** 201 Created
+  - **Body:**
+    ```json
+    {
+      "id": 1,
+      "email": "vender@example.com"
+      "phone_number": "+91-9900223344"
+    }
+    ```
+
+- **Error Response:**
+  - **Status Code:** 400 Bad Request
+  - **Body:**
+    ```json
+    {
+      "error": "Invalid data. Please provide valid information."
+    }
+    ```
+
+**Example:**
+```bash
+curl -X POST http://localhost:8000/api/user/register/ -d '{"phone_nmber": "+91-9900223344", "email": "vender@example.com", "password": "Password123", "password2": "Password123"}' -H 'Content-Type: application/json'
+```
+
+### `POST /api/token/`
+
+**Request:**
+- **Method:** `POST`
+- **Endpoint:** `/api/token/`
+- **Body:**
+  - `username` (string, required): User's username.
+  - `password` (string, required): User's password.
+
+**Response:**
+- **Success Response:**
+  - **Status Code:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+      "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+    }
+    ```
+
+- **Error Response:**
+  - **Status Code:** 401 Unauthorized
+  - **Body:**
+    ```json
+    {
+      "error": "Invalid credentials"
+    }
+    ```
+
+**Example:**
+```bash
+curl -X POST http://localhost:8000/api/token/ -d '{"username": "example_user", "password": "Password123"}' -H 'Content-Type: application/json'
+```
 
 ### `POST /api/vendors/`
 
