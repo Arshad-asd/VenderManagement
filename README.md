@@ -24,6 +24,8 @@ This repository contains the source code for a Vendor Management System develope
 
 **Description:**
 
+The Vendor Management System employs a token-based authentication system to secure API endpoints. This system enhances security and ensures that only authenticated users have access to sensitive operations. The authentication mechanism is based on JSON Web Tokens (JWT), providing a stateless and secure approach.
+
 - `POST /api/user/register`: Create a new user.
 - `POST /api/vendor/register`: Create a new vendor.
 - `POST /api/token/`: Sign a new vendor or user Role based.
